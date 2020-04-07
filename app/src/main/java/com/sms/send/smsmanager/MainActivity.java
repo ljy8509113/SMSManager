@@ -45,8 +45,11 @@ public class MainActivity extends AppCompatActivity
     RecyclerAdapter _adapter;
     ArrayList<MyContacts> _list;
 
-    private static final int PERMISSIONS_REQUEST_READ_CONTACTS = 100;
-    private static final int PERMISSIONS_REQUEST_WRITE_CONTACTS = 101;
+//    private static final int PERMISSIONS_REQUEST_READ_CONTACTS = 100;
+//    private static final int PERMISSIONS_REQUEST_WRITE_CONTACTS = 101;
+
+
+    private static final int PERMISSION_SMS = 100;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -91,7 +94,7 @@ public class MainActivity extends AppCompatActivity
                     Manifest.permission.WRITE_CONTACTS,
                     Manifest.permission.READ_CONTACTS,
                     Manifest.permission.SEND_SMS
-            }, PERMISSIONS_REQUEST_WRITE_CONTACTS);
+            }, PERMISSION_SMS);
         }else{
             setPhoneList();
         }
@@ -152,7 +155,7 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults){
-        if(requestCode == PERMISSIONS_REQUEST_READ_CONTACTS){
+        if(requestCode == PERMISSION_SMS){
             if(grantResults[0] == PackageManager.PERMISSION_GRANTED){
                 setPhoneList();
             }else{

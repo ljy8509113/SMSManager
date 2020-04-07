@@ -73,7 +73,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ItemVi
             check.setChecked(data.isSelect);
             tvName.setText(data.fullName);
             tvPhone.setText(data.phone);
-            tvNo.setText(data.no + "");
+            tvNo.setText(data.id+1 + "");
         }
     }
 }

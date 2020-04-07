@@ -2,6 +2,7 @@ package com.sms.send.smsmanager;
 
 import android.app.Activity;
 import android.database.Cursor;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.provider.ContactsContract;
 import android.util.Log;
@@ -27,9 +28,10 @@ public class ContactList {
     public ArrayList<MyContacts> getContactList() {
         Uri uri = ContactsContract.CommonDataKinds.Phone.CONTENT_URI;
         String[] projection = new String[] {
+                ContactsContract.CommonDataKinds.GroupMembership._ID,
+                ContactsContract.CommonDataKinds.GroupMembership.DISPLAY_NAME,
                 ContactsContract.CommonDataKinds.Phone.NUMBER,
                 ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME,
-                ContactsContract.Contacts.PHOTO_ID,
                 ContactsContract.Contacts._ID
         };
 
@@ -39,27 +41,23 @@ public class ContactList {
         Cursor cursor = _activity.getContentResolver().query(uri, projection, null,
                 selectionArgs, sortOrder);
 
-        int no = 0;
-
         LinkedHashSet<MyContacts> hasList = new LinkedHashSet<>();
         ArrayList<MyContacts> contactsList;
 
         if (cursor.moveToFirst()) {
             do {
-                long photo_id = cursor.getLong(2);
-                long person = cursor.getLong(3);
 
                 MyContacts myContact = new MyContacts();
-                myContact.phone = cursor.getString(0);
-                myContact.fullName = cursor.getString(1);
-                myContact.thumnailId = photo_id;
-                myContact.personId = person;
-                myContact.no = no + 1;
+                myContact.phone = cursor.getString(2);
+                myContact.fullName = cursor.getString(3);
+                myContact.groupId = cursor.getLong(0);//cursor.getString(0);
+                myContact.groupName = cursor.getString(1);
+
 
                 if (myContact.phone.startsWith("01")) {
                     hasList.add(myContact);
                     //contactsList.add(myContact);
-                    Log.d("<<CONTACTS>>", "name=" + myContact.fullName + ", phone=" + myContact.phone);
+                    Log.d("<<CONTACTS>>", "group="+myContact.groupName+", name=" + myContact.fullName + ", phone=" + myContact.phone);
                 }
 
             } while (cursor.moveToNext());
